@@ -159,7 +159,7 @@ const truncate = (
         lastChunk: null,
     }): string => {
     if (!maxHeight) {
-        return;
+        return element.innerHTML;
     }
 
     let nodeValue = target.nodeValue.replace(options.truncationChar, '');
@@ -233,13 +233,17 @@ const truncate = (
     }
     // If you get here it means still too big, let's keep truncating
     if (options.animate) {
-        setTimeout(function () {
+        setTimeout(() => {
             truncate(target, element, truncationHTMLContainer, maxHeight, options, { splitOnChars, splitChar, chunks, lastChunk });
         }, options.animate === true ? 10 : options.animate);
     }
     else {
         return truncate(target, element, truncationHTMLContainer, maxHeight, options, { splitOnChars, splitChar, chunks, lastChunk });
     }
+
+    // just to suppress TS warning...
+    return element.innerHTML;
+
 }
 
 
