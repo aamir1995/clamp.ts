@@ -1,0 +1,30 @@
+{
+  "name": "clamp.js",
+  "version": "1.0.0",
+  "description": "Clamps an HTML element by adding ellipsis to it if the content inside is too long.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aamir1995/clamp.js.git"
+  },
+  "keywords": [
+    "clamp.js",
+    "clamp",
+    "clamp.ts",
+    "text-clamp",
+    "html-clamp"
+  ],
+  "author": "Aamir Shah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aamir1995/clamp.js/issues"
+  },
+  "homepage": "https://github.com/aamir1995/clamp.js#readme"
+}
