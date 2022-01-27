@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aamir1995/clamp.js.git"
+    "url": "git+https://github.com/aamir1995/clamp.ts.git"
   },
   "keywords": [
     "clamp.js",
@@ -26,9 +26,9 @@
   "author": "Aamir Shah",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/aamir1995/clamp.js/issues"
+    "url": "https://github.com/aamir1995/clamp.ts/issues"
   },
-  "homepage": "https://github.com/aamir1995/clamp.js#readme",
+  "homepage": "https://github.com/aamir1995/clamp.ts#readme",
   "devDependencies": {
     "semantic-release": "^19.0.2",
     "typescript": "^4.5.5"
