@@ -1,5 +1,5 @@
 {
-  "name": "clampjs",
+  "name": "clamp.ts",
   "version": "0.0.0-development",
   "description": "Clamps an HTML element by adding ellipsis to it if the content inside is too long.",
   "main": "dist/index.js",
