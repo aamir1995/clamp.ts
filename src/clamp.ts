@@ -21,6 +21,11 @@ export interface IOptions {
   truncationHTML?: string;
 }
 
+export interface IResponse {
+  original: string;
+  clamped: string;
+}
+
 /********************************************************
  *                                                       *
  *  UTILITY FUNCTIONS                                    *
@@ -196,9 +201,7 @@ const truncate = (
   //If there are chunks left to remove, remove the last one and see if
   // the nodeValue fits.
   if (chunks.length > 1) {
-    // console.log('chunks', chunks);
     lastChunk = chunks.pop();
-    // console.log('lastChunk', lastChunk);
     applyEllipsis(target, chunks.join(splitChar), options);
   }
   //No more chunks can be removed using this character
@@ -288,7 +291,7 @@ const truncate = (
  * @param element. Element containing the text node to clamp.
  * @param options. Options to pass to the clamper.
  */
-export function clamp(element: Element | HTMLElement, options?: IOptions) {
+export function clamp(element: Element | HTMLElement, options?: IOptions): IResponse {
   /**
    * merge default options with provided options (if any).
    */
