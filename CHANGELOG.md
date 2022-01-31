@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/aamir1995/clamp.ts/compare/v1.1.0...v1.1.1) (2022-01-31)
+
+
+### Bug Fixes
+
+* merged some PRs from the original repo + some other minor fixes. ([#3](https://github.com/aamir1995/clamp.ts/issues/3)) ([0d1206e](https://github.com/aamir1995/clamp.ts/commit/0d1206e09e9609eab1ba1a170b1ca11444a275c5))
+
 # [1.1.0](https://github.com/aamir1995/clamp.ts/compare/v1.0.6...v1.1.0) (2022-01-31)
 
 
