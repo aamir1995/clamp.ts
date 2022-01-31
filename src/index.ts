@@ -1,1 +1,1 @@
-export { clamp } from './clamp';
+export { clamp, IOptions, IResponse } from './clamp';
