@@ -113,9 +113,9 @@ const getLineHeight = (elem: HTMLElement | Element): number => {
   if (lh === 'normal') {
     // Normal line heights vary from browser to browser. The spec recommends
     // a value between 1.0 and 1.2 of the font size. Using 1.1 to split the diff.
-    return parseInt(computeStyle(elem, 'font-size')) * 1.2;
+    return parseFloat(computeStyle(elem, 'font-size')) * 1.2;
   }
-  return parseInt(lh);
+  return parseFloat(lh);
 };
 
 /**
