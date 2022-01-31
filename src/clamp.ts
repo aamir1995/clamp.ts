@@ -127,8 +127,8 @@ const getLineHeight = (elem: HTMLElement | Element): number => {
 const getLastChild = (elem: HTMLElement | Element, options: IClampOptions): HTMLElement => {
   //Current element has children, need to go deeper and get last child as a text node
   if (
-    (elem.lastChild as any).children &&
-    (elem.lastChild as any).children.length > 0
+    (<HTMLElement>elem.lastChild).children &&
+    (<HTMLElement>elem.lastChild).children.length > 0
   ) {
     return getLastChild(
       Array.prototype.slice.call(elem.children).pop(),
