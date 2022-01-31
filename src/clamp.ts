@@ -189,7 +189,7 @@ const truncate = (
     lastChunk: null,
   }
 ): string => {
-  if (!maxHeight) {
+  if (!target || !maxHeight) {
     return element.innerHTML;
   }
 
