@@ -26,6 +26,17 @@ export interface IClampResponse {
   clamped: string;
 }
 
+/**
+ * @description Returns the height of an element as an integer (max of scroll/offset/client).
+ * Note: inline elements return 0 for scrollHeight and clientHeight.
+ * @param elem 
+ * @returns height in number'
+ * @author github.com/danmana - copied from https://github.com/josephschmitt/Clamp.js/pull/18
+ */
+const getElemHeight = (elem: HTMLElement | Element): number => {
+  return Math.max(elem.scrollHeight, (<HTMLElement>elem).offsetHeight, elem.clientHeight);
+}
+
 /********************************************************
  *                                                       *
  *  UTILITY FUNCTIONS                                    *
@@ -74,7 +85,7 @@ const computeStyle = (elem: HTMLElement | Element, prop: string): string => {
  * @returns max lines
  */
 const getMaxLines = (element: HTMLElement | Element, height?: number): number => {
-  const availHeight = height || element.clientHeight,
+  const availHeight = height || getElemHeight(element),
     lineHeight = getLineHeight(element);
   return Math.max(Math.floor(availHeight / lineHeight), 0);
 };
@@ -220,7 +231,7 @@ const truncate = (
   // Search produced valid chunks
   if (chunks) {
     // It fits
-    if (element.clientHeight <= maxHeight) {
+    if (getElemHeight(element) <= maxHeight) {
       // There's still more characters to try splitting on, not quite done yet
       if (splitOnChars.length >= 0 && splitChar !== '') {
         applyEllipsis(
@@ -337,7 +348,7 @@ export function clamp(element: Element | HTMLElement, options?: IClampOptions): 
     }
   } else {
     const height = getMaxHeight(element, clampValue as number);
-    if (height <= element.clientHeight) {
+    if (height <= getElemHeight(element)) {
       clamped = truncate(
         getLastChild(element, options),
         element,
