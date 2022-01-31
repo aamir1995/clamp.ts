@@ -1,1 +1,1 @@
-export { clamp, IOptions, IResponse } from './clamp';
+export { clamp, IClampOptions, IClampResponse } from './clamp';

@@ -12,7 +12,7 @@
  *                                                       *
  *********************************************************/
 
-export interface IOptions {
+export interface IClampOptions {
   clamp?: number | string | 'auto';
   useNativeClamp?: boolean;
   splitOnChars?: Array<string>;
@@ -21,7 +21,7 @@ export interface IOptions {
   truncationHTML?: string;
 }
 
-export interface IResponse {
+export interface IClampResponse {
   original: string;
   clamped: string;
 }
@@ -113,7 +113,7 @@ const getLineHeight = (elem: HTMLElement | Element): number => {
  * @param options config option
  * @returns Element's last child.
  */
-const getLastChild = (elem: HTMLElement | Element, options: IOptions): HTMLElement => {
+const getLastChild = (elem: HTMLElement | Element, options: IClampOptions): HTMLElement => {
   //Current element has children, need to go deeper and get last child as a text node
   if (
     (elem.lastChild as any).children &&
@@ -149,7 +149,7 @@ const getLastChild = (elem: HTMLElement | Element, options: IOptions): HTMLEleme
 const applyEllipsis = (
   elem: HTMLElement | Element,
   str: string,
-  options: IOptions
+  options: IClampOptions
 ): void => {
   elem.nodeValue = str + options.truncationChar;
 };
@@ -170,7 +170,7 @@ const truncate = (
   element: HTMLElement | Element,
   truncationHTMLContainer: HTMLElement,
   maxHeight: number,
-  options: IOptions,
+  options: IClampOptions,
   config: any = {
     splitOnChars: options.splitOnChars.slice(0),
     splitChar: options.splitOnChars.slice(0)[0],
@@ -291,7 +291,7 @@ const truncate = (
  * @param element. Element containing the text node to clamp.
  * @param options. Options to pass to the clamper.
  */
-export function clamp(element: Element | HTMLElement, options?: IOptions): IResponse {
+export function clamp(element: Element | HTMLElement, options?: IClampOptions): IClampResponse {
   /**
    * merge default options with provided options (if any).
    */
