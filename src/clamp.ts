@@ -321,9 +321,9 @@ export function clamp(element: Element | HTMLElement, options?: IClampOptions): 
     typeof (<HTMLElement>element).style.webkitLineClamp != 'undefined';
   let clampValue = options.clamp;
   const isCSSValue =
-    (clampValue as string).indexOf &&
-    ((clampValue as string).indexOf('px') > -1 ||
-      (clampValue as string).indexOf('em') > -1);
+    (<string>clampValue).indexOf &&
+    ((<string>clampValue).indexOf('px') > -1 ||
+      (<string>clampValue).indexOf('em') > -1);
   let truncationHTMLContainer;
   if (options.truncationHTML) {
     truncationHTMLContainer = document.createElement('span');
@@ -344,7 +344,7 @@ export function clamp(element: Element | HTMLElement, options?: IClampOptions): 
     sty.display = '-webkit-box';
     sty.webkitLineClamp = clampValue as string;
     if (isCSSValue) {
-      sty.height = options.clamp + 'px';
+      sty.height = <string>options.clamp;
     }
   } else {
     const height = getMaxHeight(element, clampValue as number);
