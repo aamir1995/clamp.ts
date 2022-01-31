@@ -5,10 +5,15 @@
 ![license](https://img.shields.io/github/license/aamir1995/clamp.ts)
 
 # clamp.ts
-TypeScript fork of [clamp.js](https://github.com/josephschmitt/Clamp.js)
+TypeScript fork of [clamp.js](https://github.com/josephschmitt/Clamp.js) - all of the relevant unmerged PRs from the original repo are merged.
 
 Clamps (ie. cuts off) an HTML element's content by adding ellipsis to it if the 
 content inside is too long.
+
+Install by running:
+```
+npm install clamp.ts
+```
 
  Demo: https://stackblitz.com/edit/typescript-zi38tc?file=index.ts
 

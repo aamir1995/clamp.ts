@@ -12,7 +12,7 @@
  *                                                       *
  *********************************************************/
 
-export interface IOptions {
+export interface IClampOptions {
   clamp?: number | string | 'auto';
   useNativeClamp?: boolean;
   splitOnChars?: Array<string>;
@@ -21,9 +21,20 @@ export interface IOptions {
   truncationHTML?: string;
 }
 
-export interface IResponse {
+export interface IClampResponse {
   original: string;
   clamped: string;
+}
+
+/**
+ * @description Returns the height of an element as an integer (max of scroll/offset/client).
+ * Note: inline elements return 0 for scrollHeight and clientHeight.
+ * @param elem 
+ * @returns height in number'
+ * @author github.com/danmana - copied from https://github.com/josephschmitt/Clamp.js/pull/18
+ */
+const getElemHeight = (elem: HTMLElement | Element): number => {
+  return Math.max(elem.scrollHeight, (<HTMLElement>elem).offsetHeight, elem.clientHeight);
 }
 
 /********************************************************
@@ -74,7 +85,7 @@ const computeStyle = (elem: HTMLElement | Element, prop: string): string => {
  * @returns max lines
  */
 const getMaxLines = (element: HTMLElement | Element, height?: number): number => {
-  const availHeight = height || element.clientHeight,
+  const availHeight = height || getElemHeight(element),
     lineHeight = getLineHeight(element);
   return Math.max(Math.floor(availHeight / lineHeight), 0);
 };
@@ -99,12 +110,12 @@ const getMaxHeight = (element: HTMLElement | Element, clmp: number): number => {
  */
 const getLineHeight = (elem: HTMLElement | Element): number => {
   const lh = computeStyle(elem, 'line-height');
-  if (lh == 'normal') {
+  if (lh === 'normal') {
     // Normal line heights vary from browser to browser. The spec recommends
     // a value between 1.0 and 1.2 of the font size. Using 1.1 to split the diff.
-    return parseInt(computeStyle(elem, 'font-size')) * 1.2;
+    return parseFloat(computeStyle(elem, 'font-size')) * 1.2;
   }
-  return parseInt(lh);
+  return parseFloat(lh);
 };
 
 /**
@@ -113,11 +124,11 @@ const getLineHeight = (elem: HTMLElement | Element): number => {
  * @param options config option
  * @returns Element's last child.
  */
-const getLastChild = (elem: HTMLElement | Element, options: IOptions): HTMLElement => {
+const getLastChild = (elem: HTMLElement | Element, options: IClampOptions): HTMLElement => {
   //Current element has children, need to go deeper and get last child as a text node
   if (
-    (elem.lastChild as any).children &&
-    (elem.lastChild as any).children.length > 0
+    (<HTMLElement>elem.lastChild).children &&
+    (<HTMLElement>elem.lastChild).children.length > 0
   ) {
     return getLastChild(
       Array.prototype.slice.call(elem.children).pop(),
@@ -129,7 +140,7 @@ const getLastChild = (elem: HTMLElement | Element, options: IOptions): HTMLEleme
     !elem.lastChild ||
     !elem.lastChild.nodeValue ||
     elem.lastChild.nodeValue === '' ||
-    elem.lastChild.nodeValue == options.truncationChar
+    elem.lastChild.nodeValue === options.truncationChar
   ) {
     elem.lastChild.parentNode.removeChild(elem.lastChild);
     return getLastChild(elem, options);
@@ -149,7 +160,7 @@ const getLastChild = (elem: HTMLElement | Element, options: IOptions): HTMLEleme
 const applyEllipsis = (
   elem: HTMLElement | Element,
   str: string,
-  options: IOptions
+  options: IClampOptions
 ): void => {
   elem.nodeValue = str + options.truncationChar;
 };
@@ -170,7 +181,7 @@ const truncate = (
   element: HTMLElement | Element,
   truncationHTMLContainer: HTMLElement,
   maxHeight: number,
-  options: IOptions,
+  options: IClampOptions,
   config: any = {
     splitOnChars: options.splitOnChars.slice(0),
     splitChar: options.splitOnChars.slice(0)[0],
@@ -178,7 +189,7 @@ const truncate = (
     lastChunk: null,
   }
 ): string => {
-  if (!maxHeight) {
+  if (!target || !maxHeight) {
     return element.innerHTML;
   }
 
@@ -220,7 +231,7 @@ const truncate = (
   // Search produced valid chunks
   if (chunks) {
     // It fits
-    if (element.clientHeight <= maxHeight) {
+    if (getElemHeight(element) <= maxHeight) {
       // There's still more characters to try splitting on, not quite done yet
       if (splitOnChars.length >= 0 && splitChar !== '') {
         applyEllipsis(
@@ -291,7 +302,7 @@ const truncate = (
  * @param element. Element containing the text node to clamp.
  * @param options. Options to pass to the clamper.
  */
-export function clamp(element: Element | HTMLElement, options?: IOptions): IResponse {
+export function clamp(element: Element | HTMLElement, options?: IClampOptions): IClampResponse {
   /**
    * merge default options with provided options (if any).
    */
@@ -307,12 +318,12 @@ export function clamp(element: Element | HTMLElement, options?: IOptions): IResp
   const sty = (<HTMLElement>element).style;
   const original = element.innerHTML;
   const supportsNativeClamp =
-    typeof (<HTMLElement>element).style.webkitLineClamp != 'undefined';
+    typeof (<HTMLElement>element).style.webkitLineClamp !== 'undefined';
   let clampValue = options.clamp;
   const isCSSValue =
-    (clampValue as string).indexOf &&
-    ((clampValue as string).indexOf('px') > -1 ||
-      (clampValue as string).indexOf('em') > -1);
+    (<string>clampValue).indexOf &&
+    ((<string>clampValue).indexOf('px') > -1 ||
+      (<string>clampValue).indexOf('em') > -1);
   let truncationHTMLContainer;
   if (options.truncationHTML) {
     truncationHTMLContainer = document.createElement('span');
@@ -320,7 +331,7 @@ export function clamp(element: Element | HTMLElement, options?: IOptions): IResp
   }
 
   // CONSTRUCTOR ________________________________________________________________
-  if (clampValue == 'auto') {
+  if (clampValue === 'auto') {
     clampValue = getMaxLines(element);
   } else if (isCSSValue) {
     clampValue = getMaxLines(element, parseInt(clampValue as string));
@@ -333,11 +344,11 @@ export function clamp(element: Element | HTMLElement, options?: IOptions): IResp
     sty.display = '-webkit-box';
     sty.webkitLineClamp = clampValue as string;
     if (isCSSValue) {
-      sty.height = options.clamp + 'px';
+      sty.height = <string>options.clamp;
     }
   } else {
     const height = getMaxHeight(element, clampValue as number);
-    if (height <= element.clientHeight) {
+    if (height < getElemHeight(element)) {
       clamped = truncate(
         getLastChild(element, options),
         element,
