@@ -1,6 +1,6 @@
 {
   "name": "clamp.ts",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "TypeScript fork of clamp.js - Clamps an HTML element by adding ellipsis to it if the content inside is too long.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
