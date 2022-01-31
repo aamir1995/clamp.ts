@@ -348,7 +348,7 @@ export function clamp(element: Element | HTMLElement, options?: IClampOptions): 
     }
   } else {
     const height = getMaxHeight(element, clampValue as number);
-    if (height <= getElemHeight(element)) {
+    if (height < getElemHeight(element)) {
       clamped = truncate(
         getLastChild(element, options),
         element,
