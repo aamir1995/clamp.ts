@@ -110,7 +110,7 @@ const getMaxHeight = (element: HTMLElement | Element, clmp: number): number => {
  */
 const getLineHeight = (elem: HTMLElement | Element): number => {
   const lh = computeStyle(elem, 'line-height');
-  if (lh == 'normal') {
+  if (lh === 'normal') {
     // Normal line heights vary from browser to browser. The spec recommends
     // a value between 1.0 and 1.2 of the font size. Using 1.1 to split the diff.
     return parseInt(computeStyle(elem, 'font-size')) * 1.2;
@@ -140,7 +140,7 @@ const getLastChild = (elem: HTMLElement | Element, options: IClampOptions): HTML
     !elem.lastChild ||
     !elem.lastChild.nodeValue ||
     elem.lastChild.nodeValue === '' ||
-    elem.lastChild.nodeValue == options.truncationChar
+    elem.lastChild.nodeValue === options.truncationChar
   ) {
     elem.lastChild.parentNode.removeChild(elem.lastChild);
     return getLastChild(elem, options);
@@ -318,7 +318,7 @@ export function clamp(element: Element | HTMLElement, options?: IClampOptions): 
   const sty = (<HTMLElement>element).style;
   const original = element.innerHTML;
   const supportsNativeClamp =
-    typeof (<HTMLElement>element).style.webkitLineClamp != 'undefined';
+    typeof (<HTMLElement>element).style.webkitLineClamp !== 'undefined';
   let clampValue = options.clamp;
   const isCSSValue =
     (<string>clampValue).indexOf &&
@@ -331,7 +331,7 @@ export function clamp(element: Element | HTMLElement, options?: IClampOptions): 
   }
 
   // CONSTRUCTOR ________________________________________________________________
-  if (clampValue == 'auto') {
+  if (clampValue === 'auto') {
     clampValue = getMaxLines(element);
   } else if (isCSSValue) {
     clampValue = getMaxLines(element, parseInt(clampValue as string));
